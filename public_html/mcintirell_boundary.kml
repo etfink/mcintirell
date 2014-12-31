@@ -1,13 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <kml xmlns='http://www.opengis.net/kml/2.2'>
 	<Document>
-		<name>Untitled layer</name>
+		<name>McIntire Little League Boundary</name>
+		<StyleMap id="poly-FOFOFO-3-0">
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-FOFOFO-3-00</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-FOFOFO-3-01</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F0F0F0-3-00'>
+			<LineStyle>
+				<color>7f000000</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ff0000</color>
+                       	</PolyStyle>
+		</Style>
+		<Style id='poly-F0F0F0-3-01'>
+			<LineStyle>
+				<color>7f000000</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ff0000</color>
+                   	</PolyStyle>
+		</Style>
 		<Placemark>
 			<styleUrl>#poly-F0F0F0-3-0</styleUrl>
-			<name>McIntire Little Leage District Boundaries</name>
+			<name>McIntire Little Leage Boundary</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[McIntire Little Leage District Boundaries]]></description>
+			<description><![CDATA[McIntire Little Leage Boundary]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -17,17 +45,5 @@
 				</outerBoundaryIs>
 			</Polygon>
 		</Placemark>
-		<Style id='poly-F0F0F0-3-0'>
-			<LineStyle>
-				<color>ffF0F0F0</color>
-				<width>3</width>
-			</LineStyle>
-			<PolyStyle>
-				<color>0F0F0F0</color>
-                                <colorMode>normal</colorMode>
-				<fill>1</fill>
-				<outline>1</outline>
-			</PolyStyle>
-		</Style>
 	</Document>
 </kml>
