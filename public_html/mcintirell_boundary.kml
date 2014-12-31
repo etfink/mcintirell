@@ -24,6 +24,7 @@
 			</LineStyle>
 			<PolyStyle>
 				<color>0F0F0F0</color>
+                                <colorMode>normal</colorMode>
 				<fill>1</fill>
 				<outline>1</outline>
 			</PolyStyle>
