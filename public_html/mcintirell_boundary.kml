@@ -32,10 +32,10 @@
         </Style>
         <Placemark>
             <styleUrl>#poly-F0F0F0-3-0</styleUrl>
-            <name>McIntire Little Leage Boundary</name>
+            <name>McIntire Little League Boundary</name>
             <ExtendedData>
             </ExtendedData>
-            <description><![CDATA[McIntire Little Leage Boundary]]></description>
+            <description><![CDATA[McIntire Little League Boundary]]></description>
             <Polygon>
                 <outerBoundaryIs>
                     <LinearRing>
