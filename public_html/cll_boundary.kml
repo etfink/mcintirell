@@ -2,17 +2,17 @@
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     <Document>
         <name>Central Little League Boundary</name>
-        <StyleMap id="poly-FOFOFO-3-0">
+        <StyleMap id="poly-FOFOFO-2-0">
             <Pair>
                 <key>normal</key>
-                <styleUrl>#poly-FOFOFO-3-00</styleUrl>
+                <styleUrl>#poly-FOFOFO-2-00</styleUrl>
             </Pair>
             <Pair>
                 <key>highlight</key>
-                <styleUrl>#poly-FOFOFO-3-01</styleUrl>
+                <styleUrl>#poly-FOFOFO-2-01</styleUrl>
             </Pair>
         </StyleMap>
-        <Style id='poly-F0F0F0-3-00'>
+        <Style id='poly-F0F0F0-2-00'>
             <LineStyle>
                 <color>50000000</color>
                 <width>3</width>
@@ -21,7 +21,7 @@
                 <color>50140064</color>
             </PolyStyle>
         </Style>
-        <Style id='poly-F0F0F0-3-01'>
+        <Style id='poly-F0F0F0-2-01'>
             <LineStyle>
                 <color>50000000</color>
                 <width>3</width>
@@ -33,7 +33,7 @@
         <Placemark>
             <name>Central Little League Boundary</name>
             <description><![CDATA[Central Little League Boundary]]></description>
-            <styleUrl>#poly-F0F0F0-3-0</styleUrl>
+            <styleUrl>#poly-F0F0F0-2-0</styleUrl>
             <Polygon>
                 <outerBoundaryIs>
                     <LinearRing>
