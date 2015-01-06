@@ -1,70 +1,162 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Geocoding service</title>
-    <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-      #panel {
-        position: absolute;
-        top: 5px;
-        left: 50%;
-        margin-left: -180px;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-      }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    <script>
-var geocoder;
-var map;
-function initialize() {
-  geocoder = new google.maps.Geocoder();
-  var latlng = new google.maps.LatLng(38.0299, -78.4790);
-  var mapOptions = {
-    zoom: 11,
-    center: latlng
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Charlottesville/Albemarle Little League Boundary Map</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  var ctaLayer = new google.maps.KmlLayer({
-    url: './mll_layer.kml'
-  });
-  ctaLayer.setMap(map);
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
 
-}
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 
-function codeAddress() {
-  var address = document.getElementById('address').value;
-  geocoder.geocode( { 'address': address}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      map.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-          map: map,
-          position: results[0].geometry.location
-      });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
-}
+        <script>
 
-google.maps.event.addDomListener(window, 'load', initialize);
+            google.load('visualization', '1', {'packages': ['corechart', 'table', 'geomap']});
 
-    </script>
-  </head>
-  <body>
-    <div id="panel">
-      <input id="address" type="textbox" value="Sydney, NSW">
-      <input type="button" value="Geocode" onclick="codeAddress()">
-    </div>
-    <div id="map-canvas"></div>
-  </body>
+            var fusionTableId = '1ccCiMLoQ1LbdDpE0QFNVc-VwuLEk38gJ5Ewfwril';
+            var infowindow = new google.maps.InfoWindow({size: new google.maps.Size(150, 50)});
+            var geocoder;
+            var map;
+            function initialize() {
+                geocoder = new google.maps.Geocoder();
+                var latlng = new google.maps.LatLng(38.0299, -78.4790);
+                var mapOptions = {
+                    center: latlng
+                };
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+                var ctaLayer = new google.maps.KmlLayer({
+                    url: 'https://raw.githubusercontent.com/etfink/mcintirell/master/public_html/mcintirell_boundary.kml'
+                });
+                ctaLayer.setMap(map);
+            }
+
+            function codeAddress() {
+                var address = document.getElementById('address').value;
+                geocoder.geocode({'address': address}, function (results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        var point = results[0].geometry.location;
+                        map.setCenter(point);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: point
+                        });
+
+                        var queryText = "SELECT 'name', 'url'  FROM " + fusionTableId + " WHERE ST_INTERSECTS(\'geometry\', CIRCLE(LATLNG(" + point.toUrlValue(6) + "),0.5));";
+                        queryText = encodeURIComponent(queryText);
+                        var query = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=' + queryText);
+                        query.send(openInfoWindowOnMarker);
+
+                    } else {
+                        $('#alert').addClass('in');
+                        $('#alert').removeClass('alert-info');
+                        $('#alert').addClass('alert-danger');
+                        $('#alert').html("Please provide either your home or school address.");
+                    }
+                });
+            }
+
+            function openInfoWindowOnMarker(response) {
+                FTresponse = response;
+                if (response.isError()) {
+                    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+                    return;
+                } else {
+                    //http://code.google.com/apis/visualization/documentation/reference.html#QueryResponse
+                    var numRows = response.getDataTable().getNumberOfRows();
+                    if (numRows === 0) {
+                        $('#alert').addClass('in');
+                        $('#alert').removeClass('alert-info');
+                        $('#alert').addClass('alert-danger');
+                        $('#alert').html("The address provided is not within any league boundary. Please try using either your home or school address.");
+                    } else {
+                        var name = FTresponse.getDataTable().getValue(0, 0);
+                        var url = FTresponse.getDataTable().getValue(0, 1);
+                        $('#alert').addClass('in');
+                        $('#alert').removeClass('alert-danger');
+                        $('#alert').addClass('alert-info');
+                        $('#alert').html('Congratulations! Your address is within the ' + name + ' boundary. <a target=\"_blank\" href=\"' + url + '\" id=\"alert-link\" class=\"alert-link\">Click Here to Register.</a>');
+                        // $('#alert-link').html(url);
+                    }
+                }
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapse" data-toggle="collapse" data-target="#navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">Charlottesville Little League</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="map.html">League Boundaries<span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header">
+                        <h1>Charlottesville/Albemarle Little League Boundary Map</h1>
+                    </div>
+                    <p>Little League divides districts into boundaries that are used to determine the
+                        league in which your child is eligible to play. These are determined by your home
+                        address or school address. Enter your home address or the address of your child's
+                        school and press the 'Search' button. A red marker will appear within the shaded
+                        boundary that defines McIntire Little League's boundary.
+                    </p>
+                    <div class="well well-sm"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"> </span>
+                        We do not currently have electronic map data
+                        for Central Little League or Monticello Little League. Central Little League has
+                        this <a target="_blank" href="http://www.eteamz.com/cllcharlottesville/files/Central_district.pdf">PDF document</a> that shows its boundaries.
+                        <a target="_blank" href="http://www.eteamz.com/monticellolittleleague/">Contact</a> Monticello Little League directly for boundary information.
+                    </div>
+                    <div class="alert fade" id="alert" role="alert"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="address" placeholder="Home or School Address ...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" onclick="codeAddress()">
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                            <div id="map-canvas"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <p>&copy; Finkmaster Productions 2015</p>
+            </footer>
+        </div>
+    </body>
 </html>
