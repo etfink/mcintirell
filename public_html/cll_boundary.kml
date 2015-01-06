@@ -32,7 +32,7 @@
         </Style>
         <Placemark>
             <name>Central Little League Boundary</name>
-            <description><![CDATA[McIntire Little Leage Boundary]]></description>
+            <description><![CDATA[Central Little League Boundary]]></description>
             <styleUrl>#poly-F0F0F0-3-0</styleUrl>
             <LineString>
                 <tessellate>1</tessellate>
