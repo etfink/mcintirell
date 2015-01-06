@@ -33,10 +33,16 @@
                 };
                 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-                var ctaLayer = new google.maps.KmlLayer({
+                var mllBoundaryLayer = new google.maps.KmlLayer({
                     url: 'https://raw.githubusercontent.com/etfink/mcintirell/master/public_html/mcintirell_boundary.kml'
                 });
-                ctaLayer.setMap(map);
+                mllBoundaryLayer.setMap(map);
+
+                var cllBouldaryLayer = new google.maps.KmlLayer({
+                    url: 'https://raw.githubusercontent.com/etfink/mcintirell/master/public_html/cll_boundary.kml'
+                });
+                cllBouldaryLayer.setMap(map);
+
             }
 
             function codeAddress() {
