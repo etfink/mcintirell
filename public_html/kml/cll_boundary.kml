@@ -14,20 +14,20 @@
         </StyleMap>
         <Style id='poly-F0F0F0-2-00'>
             <LineStyle>
-                <color>50000000</color>
+                <color>ff0000aa</color>
                 <width>3</width>
             </LineStyle>
             <PolyStyle>
-                <color>50140064</color>
+                <color>7f0000aa</color>
             </PolyStyle>
         </Style>
         <Style id='poly-F0F0F0-2-01'>
             <LineStyle>
-                <color>50000000</color>
+                <color>ff0000aa</color>
                 <width>3</width>
             </LineStyle>
             <PolyStyle>
-                <color>50140064</color>
+                <color>7f0000aa</color>
             </PolyStyle>
         </Style>
         <Placemark>
