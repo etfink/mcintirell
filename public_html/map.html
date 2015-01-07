@@ -34,12 +34,12 @@
                 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
                 var mllBoundaryLayer = new google.maps.KmlLayer({
-                    url: 'https://raw.githubusercontent.com/etfink/mcintirell/master/public_html/mcintirell_boundary.kml'
+                    url: 'http://www.charlottesvillelittleleague.com/kml/mcintirell_boundary.kml'
                 });
                 mllBoundaryLayer.setMap(map);
 
                 var cllBouldaryLayer = new google.maps.KmlLayer({
-                    url: 'https://raw.githubusercontent.com/etfink/mcintirell/master/public_html/cll_boundary.kml'
+                    url: 'http://www.charlottesvillelittleleague.com/kml/cll_boundary.kml'
                 });
                 cllBouldaryLayer.setMap(map);
 
@@ -96,6 +96,15 @@
             }
 
             google.maps.event.addDomListener(window, 'load', initialize);
+
+            $(document).ready(function () {
+                $('form input').keydown(function (event) {
+                    if (event.keyCode == 13) {
+                        event.preventDefault();
+                        return false;
+                    }
+                });
+            });
 
         </script>
     </head>
